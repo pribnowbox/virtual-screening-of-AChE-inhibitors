@@ -59,14 +59,14 @@ from deepchem.feat.mol_graphs import ConvMol
 import numpy as np
 
 def data_generator(dataset, epochs=1, predict=False):
-  	for ind, (X_b, y_b, w_b, ids_b) in enumerate(dataset.iterbatches(my_batch_size, epochs, deterministic=True, pad_batches=True)):
-    	multiConvMol = ConvMol.agglomerate_mols(X_b)
-    	inputs = [multiConvMol.get_atom_features(), multiConvMol.deg_slice, np.array(multiConvMol.membership)]
-    	for i in range(1, len(multiConvMol.get_deg_adjacency_lists())):
-      		inputs.append(multiConvMol.get_deg_adjacency_lists()[i])
-    	labels = [to_one_hot(y_b.flatten(), 2).reshape(-1, n_tasks, 2)]
-    	weights = [w_b]
-    	yield (inputs, labels, weights)
+	for ind, (X_b, y_b, w_b, ids_b) in enumerate(dataset.iterbatches(my_batch_size, epochs, deterministic=True, pad_batches=True)):
+    		multiConvMol = ConvMol.agglomerate_mols(X_b)
+    		inputs = [multiConvMol.get_atom_features(), multiConvMol.deg_slice, np.array(multiConvMol.membership)]
+    		for i in range(1, len(multiConvMol.get_deg_adjacency_lists())):
+      			inputs.append(multiConvMol.get_deg_adjacency_lists()[i])
+    		labels = [to_one_hot(y_b.flatten(), 2).reshape(-1, n_tasks, 2)]
+    		weights = [w_b]
+    		yield (inputs, labels, weights)
 
 n_tasks=1
 model = dc.models.KerasModel(MyGraphConvModel(), loss=dc.models.losses.SoftmaxCrossEntropy(), learning_rate=my_learning_rate, model_dir="./saved_model")
