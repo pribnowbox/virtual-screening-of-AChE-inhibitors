@@ -50,8 +50,7 @@ from deepchem.feat.mol_graphs import ConvMol
 import numpy as np
 
 def data_generator(dataset, epochs=1, predict=False):
-  for ind, (X_b, y_b, w_b, ids_b) in enumerate(dataset.iterbatches(my_batch_size, epochs,
-                                                                   deterministic=True, pad_batches=True)):
+  for ind, (X_b, y_b, w_b, ids_b) in enumerate(dataset.iterbatches(my_batch_size, epochs, deterministic=True, pad_batches=True)):
     multiConvMol = ConvMol.agglomerate_mols(X_b)
     inputs = [multiConvMol.get_atom_features(), multiConvMol.deg_slice, np.array(multiConvMol.membership)]
     for i in range(1, len(multiConvMol.get_deg_adjacency_lists())):
@@ -66,8 +65,7 @@ model.restore()
 
 dataset_file = "mushroom_dataset.csv"
 featurizer = dc.feat.ConvMolFeaturizer()
-training_task=['class']
-loader = dc.data.CSVLoader(tasks=training_task, smiles_field="canonical_smiles", featurizer=featurizer)
+loader = dc.data.CSVLoader(tasks=['class'], smiles_field="canonical_smiles", featurizer=featurizer)
 predict_dataset = loader.featurize(dataset_file, shard_size=8192)
 
 y=model.predict_on_generator(data_generator(predict_dataset, epochs=1))
