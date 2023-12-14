@@ -5,8 +5,6 @@ import tensorflow as tf
 import tensorflow.keras.layers as layers
 import numpy as np
 import pandas as pd
-from google.colab import files
-import matplotlib.pyplot as plt
 
 my_learning_rate=1E-4
 my_gc1_nodes=1024
@@ -47,7 +45,6 @@ class MyGraphConvModel(tf.keras.Model):
 
 from deepchem.metrics import to_one_hot
 from deepchem.feat.mol_graphs import ConvMol
-import numpy as np
 
 def data_generator(dataset, epochs=1, predict=False):
   for ind, (X_b, y_b, w_b, ids_b) in enumerate(dataset.iterbatches(my_batch_size, epochs, deterministic=True, pad_batches=True)):
@@ -60,7 +57,7 @@ def data_generator(dataset, epochs=1, predict=False):
     yield (inputs, labels, weights)
 
 n_tasks=1
-model = dc.models.KerasModel(MyGraphConvModel(), loss=dc.models.losses.SoftmaxCrossEntropy(), learning_rate=my_learning_rate, model_dir="saved_model")
+model = dc.models.KerasModel(MyGraphConvModel(), loss=dc.models.losses.SoftmaxCrossEntropy(), learning_rate=my_learning_rate, model_dir="saved_model_rep01")
 model.restore()
 
 dataset_file = "mushroom_dataset.csv"
