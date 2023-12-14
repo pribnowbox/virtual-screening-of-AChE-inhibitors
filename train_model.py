@@ -9,7 +9,7 @@ import pandas as pd
 def read_data(fname):
 	dataset_file = fname
 	featurizer = dc.feat.ConvMolFeaturizer()
-	loader = dc.data.CSVLoader(tasks="class", smiles_field="smiles", featurizer=featurizer)
+	loader = dc.data.CSVLoader(tasks=["class"], smiles_field="smiles", featurizer=featurizer)
 	dataset = loader.featurize(dataset_file, shard_size=8192)
 	transformer = dc.trans.BalancingTransformer(dataset=dataset)
 	transformed_dataset = transformer.transform(dataset)
