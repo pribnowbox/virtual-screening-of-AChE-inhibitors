@@ -70,7 +70,13 @@ y=model.predict_on_generator(data_generator(predict_dataset, epochs=1))
 ymod=np.empty(0)
 for i in range(len(y)):
   ymod=np.append(ymod, y[i][0][1] )
-  #print(y[i][0])
 df_prob = pd.DataFrame(ymod)
+
+df = pd.read_csv('mushroom_dataset.csv', header=0)
+df.drop(columns=['index', 'class'], inplace=True)
+df['active_prob']=df_prob[0]
+df.sort_values(by=['active_prob'], ascending=False, inplace=True)
+filename='mushroom_prediction_sorted.csv'
+df.to_csv(filename, index=False)
 
                                                                      
