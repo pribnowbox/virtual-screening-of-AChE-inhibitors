@@ -57,6 +57,7 @@ def data_generator(dataset, epochs=1, predict=False):
     yield (inputs, labels, weights)
 
 n_tasks=1
+# replace 'saved_model_rep01' with 'saved_model_rep02' to 'saved_model_rep05'
 model = dc.models.KerasModel(MyGraphConvModel(), loss=dc.models.losses.SoftmaxCrossEntropy(), learning_rate=my_learning_rate, model_dir="saved_model_rep01")
 model.restore()
 
