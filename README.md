@@ -2,4 +2,4 @@ A graph convolutional model was implemented with a 5-fold cross-validation (CV) 
 
 Since the learning algorithm is stochastic, the models trained with the same data and hyperparameters may not necessarily yield identical results. Thus, five instances of the models were trained and saved as `saved_model_rep01` to `saved_model_rep05`.
 
-The trained models were used to predict the probability score of all substances in BACMUSHBASE (http://bacmushbase.sci.ku.ac.th/), a database of bioactive compounds from the mushroom species found in Thailand. The code to execute this task is provided in `predict.py`.
+The trained models were used to predict the probability score of all substances in BACMUSHBASE (http://bacmushbase.sci.ku.ac.th/), a database of bioactive compounds from the mushroom species found in Thailand (`mushroom_dataset.csv`). The code to execute this task is provided in `predict.py`.
