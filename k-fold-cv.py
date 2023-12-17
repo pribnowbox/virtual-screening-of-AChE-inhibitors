@@ -35,7 +35,7 @@ splitter = dc.splits.RandomStratifiedSplitter()
 data_splits = splitter.k_fold_split(dataset, K_fold)
 
 df_out = pd.DataFrame()
-df=pd.read_csv('LHS.csv', header=0)
+df=pd.read_csv('hyperparameters.csv', header=0)
 for s in range( len(df) ):
 	my_gc_nodes = p_gc_nodes[ df.iloc[s,0] ]  
 	my_dense_nodes = p_dense_nodes[ df.iloc[s,1] ]
