@@ -26,9 +26,9 @@ p_dropout_rate = [ 0, 0.1, 0.2 ]
 p_gc_fn = [ 'relu', 'tanh' ]
 p_dense_fn = [ 'relu', 'tanh' ]
 p_readout_fn = [ 'relu', 'tanh' ]
-n_tasks=1
 my_epochs=10
 my_batch_size=40
+n_tasks=1
 
 K_fold=5
 splitter = dc.splits.RandomStratifiedSplitter()
@@ -193,33 +193,3 @@ for s in range( len(df) ):
 	df_out=df_out.append(df_new, ignore_index=True)
 	
 df_out.to_csv('out.csv', header=False, index=False)
-
-
-
-
-
-####
-train_auc=[]
-valid_auc=[]
-
-for train_folds, valid_fold in data_splits:
-  model = dc.models.KerasModel(MyGraphConvModel(), loss=dc.models.losses.SoftmaxCrossEntropy(), learning_rate=my_learning_rate)
-  model.fit_generator(data_generator(train_folds, epochs=my_epochs))
-  metric = dc.metrics.Metric(dc.metrics.roc_auc_score)
-  y1 = model.evaluate_generator(data_generator(train_folds), [metric])
-  y2 = model.evaluate_generator(data_generator(valid_fold), [metric])
-  train_auc = np.append( train_auc, y1.get('roc_auc_score') )
-  valid_auc = np.append( valid_auc, y2.get('roc_auc_score') )
-  
-print('train auc & valid auc')
-print( train_auc, valid_auc, sep="\n")
-print('\nmean of train auc & mean of valid auc')
-print( np.mean(train_auc), np.mean(valid_auc) )
-print('\n\n')
-
-# Train with the whole dataset
-model = dc.models.KerasModel(MyGraphConvModel(), loss=dc.models.losses.SoftmaxCrossEntropy(), learning_rate=my_learning_rate, model_dir="./saved_model")
-model.fit_generator(data_generator(dataset, epochs=my_epochs, predict=False))
-metric = dc.metrics.Metric(dc.metrics.roc_auc_score)
-print('Dataset score:', model.evaluate_generator(data_generator(dataset), [metric]))
-!zip -r ./saved_model.zip ./saved_model
